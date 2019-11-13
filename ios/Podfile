@@ -1,0 +1,13 @@
+platform :ios, '9.0'
+target 'TigerTracking' do
+    # Pods for TigerTracking
+    pod 'GoogleMaps'
+    pod 'Google-Maps-iOS-Utils'
+    pod 'Firebase/Analytics'
+    pod 'Firebase/Core'
+    pod 'Firebase/Messaging'
+      # pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
+      # pod 'react-native-fetch-blob', :path => '../node_modules/react-native-fetch-blob'
+
+    end

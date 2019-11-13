@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "875038175338",
+    "firebase_url": "https://tigertracking-tiger.firebaseio.com",
+    "project_id": "tigertracking-tiger",
+    "storage_bucket": "tigertracking-tiger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875038175338:android:87f4334fc3bbe611",
+        "android_client_info": {
+          "package_name": "th.co.icc.tigertracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875038175338-e32dkbp0muq6n92g8qp28gtvedc6ld9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvpQV_Z5CU7Z7LQ9p-_DTzIrmpUm4aTyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875038175338-e32dkbp0muq6n92g8qp28gtvedc6ld9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
