@@ -4,6 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import {
     StyleSheet, ScrollView, Image, ActivityIndicator, RefreshControl,
     TouchableOpacity,
+    TouchableHighlight,
     Text, FlatList, AsyncStorage
 } from "react-native";
 import { View } from "native-base";
@@ -15,6 +16,7 @@ import { bindActionCreators, createStore } from 'redux';
 import { connect } from 'react-redux';
 import badgeCountReducer from '../../reducers/badgeCountReducer';
 import { increaseBadge, decreaseBadge } from './../../actions/index';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 class notifyCom extends React.Component {
 
@@ -179,7 +181,7 @@ class notifyCom extends React.Component {
     renderItem = ({ item }) => {
 
         const noopenmail =
-            <TouchableOpacity onPress={() => { this.clickEventListener(item.message_id, item.body), this.openM(item.message_id) }}>
+            <TouchableHighlight onPress={() => { this.clickEventListener(item.message_id, item.body), this.openM(item.message_id) }}>
                 <View style={styles.notificationBox}>
                     <Image style={styles.icon}
                         source={ImageNoOpen} />
@@ -188,10 +190,10 @@ class notifyCom extends React.Component {
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.body}</Text>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
 
         const openmail =
-            <TouchableOpacity onPress={() => { this.clickEventListener(item.message_id, item.body) }}>
+            <TouchableHighlight onPress={() => { this.clickEventListener(item.message_id, item.body) }}>
                 <View style={styles.notificationBox}>
                     <Image style={styles.icon}
                         source={ImageOpen} />
@@ -200,7 +202,7 @@ class notifyCom extends React.Component {
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.body}</Text>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
 
         let viewSelectN;
         let viewSelectY;
@@ -219,6 +221,27 @@ class notifyCom extends React.Component {
         )
     }
 
+    renderHiddenItem = ({ item }) => {
+
+        return (
+            <ScrollView contentContainerStyle={{ flex: 1 }}>
+                <View style={{ flex: 1, flexDirection: 'row' }} onPress={() => { }}>
+                    <TouchableOpacity style={{ flex: 1 }}>
+                        <View style={styles.notificationBoxSwipeStart}>
+                            <Text style={{ color: 'white', fontSize: hp('2.5%') }}>ลบ</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={{ flex: 1 }}>
+                        <View style={styles.notificationBoxSwipeEnd}>
+                            <Text style={{ color: 'white', fontSize: hp('2.5%') }}>ลบ</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        )
+    }
+
     render() {
         if (this.state.loading) {
             return (
@@ -228,34 +251,42 @@ class notifyCom extends React.Component {
             );
         }
 
-        let NotificationList;
-        if (this.state.foundNotification) {
-            NotificationList =
-                <FlatList
-                    style={styles.notificationList}
-                    data={this.state.dataMessageList.data}
-                    extraData={this.state}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.isRefreshing}
-                            onRefresh={this.onRefresh.bind(this, this.state.phones)}
-                        />}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-        } else {
-            NotificationList =
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image style={{ width: wp('20%'), height: hp('10%'), resizeMode: 'contain', marginBottom: hp('4%') }} source={ImageEmail} />
-                    <Text style={{ marginTop: 0, fontSize: hp('2.5%'), color: '#d6d6d6', fontFamily: 'kanit', fontWeight: 'bold' }}>ไม่พบรายการข้อความ</Text>
-                </View>
-        }
+        // let NotificationList;
+        // if (this.state.foundNotification) {
+        //     NotificationList =
+        //         <FlatList
+        //             style={styles.notificationList}
+        //             data={this.state.dataMessageList.data}
+        //             extraData={this.state}
+        //             refreshControl={
+        //                 <RefreshControl
+        //                     refreshing={this.state.isRefreshing}
+        //                     onRefresh={this.onRefresh.bind(this, this.state.phones)}
+        //                 />}
+        //             renderItem={this.renderItem}
+        //             keyExtractor={(item, index) => index.toString()}
+        //         />
+        // } else {
+        //     NotificationList =
+        //         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        //             <Image style={{ width: wp('20%'), height: hp('10%'), resizeMode: 'contain', marginBottom: hp('4%') }} source={ImageEmail} />
+        //             <Text style={{ marginTop: 0, fontSize: hp('2.5%'), color: '#d6d6d6', fontFamily: 'kanit', fontWeight: 'bold' }}>ไม่พบรายการข้อความ</Text>
+        //         </View>
+        // }
 
         return (
 
             <View style={styles.screen}>
 
-                {NotificationList}
+                {/* {NotificationList} */}
+
+                <SwipeListView
+                    data={this.state.dataMessageList.data}
+                    renderItem={this.renderItem}
+                    renderHiddenItem={this.renderHiddenItem}
+                    leftOpenValue={75}
+                    rightOpenValue={-75}
+                />
 
                 <Modal
                     isVisible={this.state.visibleModal === 1}
@@ -357,6 +388,32 @@ const styles = StyleSheet.create({
         borderColor: '#eee',
         borderRadius: 10,
         flexDirection: 'row',
+    },
+    notificationBoxSwipeStart: {
+        justifyContent: 'center',
+        alignSelf: 'flex-start',
+        marginVertical: hp('1%'),
+        marginHorizontal: wp('1%'),
+        backgroundColor: "#cb3837",
+        width: wp('17%'),
+        height: hp('12%'),
+        padding: wp('5%'),
+        borderWidth: wp('0.5%'),
+        borderColor: '#eee',
+        borderRadius: 10,
+    },
+    notificationBoxSwipeEnd: {
+        justifyContent: 'center',
+        alignSelf: 'flex-end',
+        marginVertical: hp('1%'),
+        marginHorizontal: wp('1%'),
+        backgroundColor: "#cb3837",
+        width: wp('17%'),
+        height: hp('12%'),
+        padding: wp('5%'),
+        borderWidth: wp('0.5%'),
+        borderColor: '#eee',
+        borderRadius: 10,
     },
     icon: {
         width: wp('10%'),

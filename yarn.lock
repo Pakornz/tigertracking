@@ -5764,6 +5764,11 @@ react-native-svg@^9.4.0:
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.4.0.tgz#e428e0eae55aebd2355f1ff4f22675dad4611960"
   integrity sha512-IVJlVbS2dAPerPr927fEi4uXzrPXzlra5ddgyJXZZ2IKA2ZygyYWFZDM+vsQs+Vj20CfL8nOWszQQV57vdQgFg==
 
+react-native-swipe-list-view@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-list-view/-/react-native-swipe-list-view-2.0.4.tgz#78d8653ddd768e8eb5e8135763f962bf2d4b4a05"
+  integrity sha512-6NwPKxHAt1Zbcf0S7dVny70YCBJf2xKhPHZ0d9L55lADy65hDDqzXNLKS2L9nCqswlhjNM4mj5O2qn9Mg+qQ+g==
+
 react-native-tab-view@^0.0.77:
   version "0.0.77"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.77.tgz#11ceb8e7c23100d07e628dc151b57797524d00d4"
