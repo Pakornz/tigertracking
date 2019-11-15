@@ -78,13 +78,13 @@ const styles = StyleSheet.create({
   },
   textSelected: {
     color: '#23527c',
-    fontSize: platform === 'ios' ? hp('1.5%') : hp('1.1%'),
+    fontSize: platform === 'ios' ? hp('1.5%') : hp('1.4%'),
     fontWeight: 'bold',
     // fontFamily: 'kanit',
   },
   textnotSelected: {
     color: '#a4abb2',
-    fontSize: platform === 'ios' ? hp('1.5%') : hp('1.1%'),
+    fontSize: platform === 'ios' ? hp('1.5%') : hp('1.4%'),
     fontWeight: 'bold',
     // fontFamily: 'kanit',
   },

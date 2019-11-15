@@ -9,6 +9,7 @@ import Modal from "react-native-modal";
 import {
   Image, StyleSheet, View, FlatList, ActivityIndicator, RefreshControl,
   TouchableOpacity,
+  TouchableHighlight,
   Dimensions,
   ScrollView,
 } from "react-native";
@@ -31,6 +32,7 @@ import {
   SCLAlert,
   SCLAlertButton
 } from 'react-native-scl-alert'
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 class shippingList extends React.Component {
 
@@ -394,12 +396,31 @@ class shippingList extends React.Component {
     }
 
     const viewSelectYY =
-      <TouchableOpacity style={styles.card} onPress={() => this.clickEventListener(item)}>
-        <View style={{ padding: wp('5%') }}>
-          <Image style={styles.image} source={ImgLocation} />
+      <TouchableHighlight underlayColor={'white'} style={styles.card} onPress={() => this.clickEventListener(item)}>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ padding: wp('5%') }}>
+            <Image style={styles.image} source={ImgLocation} />
+          </View>
+          <View style={styles.cardContent2}>
+            <Image style={styles.fav} source={ImgFav} />
+            <View style={styles.cardContent}>
+              <Text style={styles.name}>{item.receiver_id}</Text>
+              <View style={styles.span}></View>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.name}>{item.phone}</Text>
+              <Text numberOfLines={2} ellipsizeMode='tail' style={styles.name}>{item.address}</Text>
+              {btnSelect}
+            </View>
+          </View>
         </View>
-        <View style={styles.cardContent2}>
-          <Image style={styles.fav} source={ImgFav} />
+      </TouchableHighlight>
+
+    const viewSelectNN =
+      <TouchableHighlight underlayColor={'white'} style={styles.card} onPress={() => this.clickEventListener(item)}>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ padding: wp('5%') }}>
+            <Image style={styles.image} source={ImgLocation} />
+          </View>
           <View style={styles.cardContent}>
             <Text style={styles.name}>{item.receiver_id}</Text>
             <View style={styles.span}></View>
@@ -409,22 +430,7 @@ class shippingList extends React.Component {
             {btnSelect}
           </View>
         </View>
-      </TouchableOpacity>
-
-    const viewSelectNN =
-      <TouchableOpacity style={styles.card} onPress={() => this.clickEventListener(item)}>
-        <View style={{ padding: wp('5%') }}>
-          <Image style={styles.image} source={ImgLocation} />
-        </View>
-        <View style={styles.cardContent}>
-          <Text style={styles.name}>{item.receiver_id}</Text>
-          <View style={styles.span}></View>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.name}>{item.phone}</Text>
-          <Text numberOfLines={2} ellipsizeMode='tail' style={styles.name}>{item.address}</Text>
-          {btnSelect}
-        </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
 
     let viewSelectY;
     let viewSelectN;
@@ -442,6 +448,48 @@ class shippingList extends React.Component {
     )
   }
 
+  renderHiddenItem = ({ item }) => {
+
+    return (
+      <ScrollView contentContainerStyle={{ flex: 1, flexDirection: 'row' }}>
+        <View style={{ flex: 1, flexDirection: 'column' }}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonShowMap(item) }}>
+            <View style={styles.notificationBoxSwipeStart1}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Image style={styles.inputIcon2} source={ImgMap} />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ show: true, itemSelect: item }) }}>
+            <View style={styles.notificationBoxSwipeStart2}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Image style={styles.inputIcon2} source={ImgBin} />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 1, flexDirection: 'column' }}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonShowMap(item) }}>
+            <View style={styles.notificationBoxSwipeEnd1}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Image style={styles.inputIcon2} source={ImgMap} />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ show: true, itemSelect: item }) }}>
+            <View style={styles.notificationBoxSwipeEnd2}>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Image style={styles.inputIcon2} source={ImgBin} />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    )
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -454,18 +502,27 @@ class shippingList extends React.Component {
     let MyParcelList;
     if (this.state.foundParcel) {
       MyParcelList =
-        <FlatList
+        <SwipeListView
           style={styles.userList}
           data={this.state.dataShippingList.data.shippings}
-          extraData={this.state}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={this.onRefresh.bind(this, this.state.phones)}
-            />}
           renderItem={this.renderItem}
-          keyExtractor={(item, index) => index.toString()}
+          renderHiddenItem={this.renderHiddenItem}
+          // disableRightSwipe={true}
+          leftOpenValue={75}
+          rightOpenValue={-75}
         />
+      // <FlatList
+      //   style={styles.userList}
+      //   data={this.state.dataShippingList.data.shippings}
+      //   extraData={this.state}
+      //   refreshControl={
+      //     <RefreshControl
+      //       refreshing={this.state.isRefreshing}
+      //       onRefresh={this.onRefresh.bind(this, this.state.phones)}
+      //     />}
+      //   renderItem={this.renderItem}
+      //   keyExtractor={(item, index) => index.toString()}
+      // />
     } else {
       MyParcelList =
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -656,7 +713,7 @@ const styles = StyleSheet.create({
     // elevation: 12,
 
     marginVertical: hp('2%'),
-    marginHorizontal: wp('6%'),
+    marginHorizontal: wp('3%'),
     backgroundColor: "#fff",
     flexBasis: '46%',
     // padding: 10,
@@ -664,6 +721,58 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
     borderRadius: 20,
     flexDirection: 'row',
+  },
+  notificationBoxSwipeStart1: {
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    marginVertical: hp('3%'),
+    marginHorizontal: wp('2.75%'),
+    backgroundColor: "#23527c",
+    width: wp('16%'),
+    height: hp('12%'),
+    padding: wp('2%'),
+    borderWidth: wp('0.5%'),
+    borderColor: '#eee',
+    borderRadius: 10,
+  },
+  notificationBoxSwipeStart2: {
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    marginVertical: hp('3%'),
+    marginHorizontal: wp('2.75%'),
+    backgroundColor: "#cb3837",
+    width: wp('16%'),
+    height: hp('12%'),
+    padding: wp('2%'),
+    borderWidth: wp('0.5%'),
+    borderColor: '#eee',
+    borderRadius: 10,
+  },
+  notificationBoxSwipeEnd1: {
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    marginVertical: hp('3%'),
+    marginHorizontal: wp('2.75%'),
+    backgroundColor: "#23527c",
+    width: wp('16%'),
+    height: hp('12%'),
+    padding: wp('2%'),
+    borderWidth: wp('0.5%'),
+    borderColor: '#eee',
+    borderRadius: 10,
+  },
+  notificationBoxSwipeEnd2: {
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    marginVertical: hp('3%'),
+    marginHorizontal: wp('2.75%'),
+    backgroundColor: "#cb3837",
+    width: wp('16%'),
+    height: hp('12%'),
+    padding: wp('2%'),
+    borderWidth: wp('0.5%'),
+    borderColor: '#eee',
+    borderRadius: 10,
   },
   name: {
     fontSize: hp('2%'),
@@ -737,6 +846,13 @@ const styles = StyleSheet.create({
   inputIcon: {
     width: wp('8%'),
     height: hp('4%'),
+    resizeMode: 'contain',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputIcon2: {
+    width: wp('12%'),
+    height: hp('6%'),
     resizeMode: 'contain',
     justifyContent: 'center',
     alignItems: 'center',

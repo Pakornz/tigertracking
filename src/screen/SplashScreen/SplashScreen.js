@@ -3,7 +3,7 @@ import axios from "axios";
 import { Actions } from 'react-native-router-flux';
 import { withNavigation, StackActions, NavigationActions } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { View, Text, StyleSheet, Animated, Dimensions, StatusBar, Keyboard, NetInfo } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Animated, Dimensions, StatusBar, Keyboard, NetInfo } from 'react-native';
 import { AsyncStorage, Image, ImageBackground } from 'react-native';
 import ImgBgSplash from '../../assets/bg-pai.png';
 import { domain } from '../../config/configApp'
@@ -53,6 +53,10 @@ class SplashScreen extends React.Component {
     });
 
     console.disableYellowBox = true
+    Text.defaultProps = Text.defaultProps || {};
+    Text.defaultProps.allowFontScaling = false;
+    TextInput.defaultProps = TextInput.defaultProps || {};
+    TextInput.defaultProps.allowFontScaling = false;
   }
 
   componentWillMount() {
