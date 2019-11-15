@@ -451,40 +451,59 @@ class shippingList extends React.Component {
   renderHiddenItem = ({ item }) => {
 
     return (
-      <ScrollView contentContainerStyle={{ flex: 1, flexDirection: 'row' }}>
-        <View style={{ flex: 1, flexDirection: 'column' }}>
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonShowMap(item) }}>
-            <View style={styles.notificationBoxSwipeStart1}>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Image style={styles.inputIcon2} source={ImgMap} />
+      <ScrollView contentContainerStyle={{ flex: 1, flexDirection: 'row', alignSelf: 'center' }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flex: 1, height: hp('25%'), flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonSelect(item) }}>
+              <View style={styles.notificationBoxSwipeStart}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <Image style={styles.inputIcon2} source={ImgFav} />
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ show: true, itemSelect: item }) }}>
-            <View style={styles.notificationBoxSwipeStart2}>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Image style={styles.inputIcon2} source={ImgBin} />
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonShowMap(item) }}>
+              <View style={styles.notificationBoxSwipeStart1}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <Image style={styles.inputIcon2} source={ImgMap} />
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 1, flexDirection: 'column' }}>
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonShowMap(item) }}>
-            <View style={styles.notificationBoxSwipeEnd1}>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Image style={styles.inputIcon2} source={ImgMap} />
-              </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ show: true, itemSelect: item }) }}>
-            <View style={styles.notificationBoxSwipeEnd2}>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Image style={styles.inputIcon2} source={ImgBin} />
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ show: true, itemSelect: item }) }}>
+              <View style={styles.notificationBoxSwipeStart2}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <Image style={styles.inputIcon2} source={ImgBin} />
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flex: 1, height: hp('25%'), flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-end' }}>
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonSelect(item) }}>
+              <View style={styles.notificationBoxSwipeEnd}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <Image style={styles.inputIcon2} source={ImgFav} />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.onButtonShowMap(item) }}>
+              <View style={styles.notificationBoxSwipeEnd1}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <Image style={styles.inputIcon2} source={ImgMap} />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.setState({ show: true, itemSelect: item }) }}>
+              <View style={styles.notificationBoxSwipeEnd2}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <Image style={styles.inputIcon2} source={ImgBin} />
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     )
@@ -722,54 +741,86 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: 'row',
   },
-  notificationBoxSwipeStart1: {
+  notificationBoxSwipeStart: {
+    flex: 1,
     justifyContent: 'center',
     alignSelf: 'flex-start',
-    marginVertical: hp('3%'),
+    // marginVertical: hp('1%'),
+    marginHorizontal: wp('2.75%'),
+    backgroundColor: "#FBBC05",
+    width: wp('16%'),
+    height: hp('5%'),
+    padding: wp('1%'),
+    borderWidth: wp('0.5%'),
+    borderColor: '#eee',
+    borderRadius: 10,
+  },
+  notificationBoxSwipeStart1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    // marginVertical: hp('1%'),
     marginHorizontal: wp('2.75%'),
     backgroundColor: "#23527c",
     width: wp('16%'),
-    height: hp('12%'),
-    padding: wp('2%'),
+    height: hp('5%'),
+    padding: wp('1%'),
     borderWidth: wp('0.5%'),
     borderColor: '#eee',
     borderRadius: 10,
   },
   notificationBoxSwipeStart2: {
+    flex: 1,
     justifyContent: 'center',
     alignSelf: 'flex-start',
-    marginVertical: hp('3%'),
+    // marginVertical: hp('1%'),
     marginHorizontal: wp('2.75%'),
     backgroundColor: "#cb3837",
     width: wp('16%'),
-    height: hp('12%'),
-    padding: wp('2%'),
+    height: hp('5%'),
+    padding: wp('1%'),
+    borderWidth: wp('0.5%'),
+    borderColor: '#eee',
+    borderRadius: 10,
+  },
+  notificationBoxSwipeEnd: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    // marginVertical: hp('1%'),
+    marginHorizontal: wp('2.75%'),
+    backgroundColor: "#FBBC05",
+    width: wp('16%'),
+    height: hp('5%'),
+    padding: wp('1%'),
     borderWidth: wp('0.5%'),
     borderColor: '#eee',
     borderRadius: 10,
   },
   notificationBoxSwipeEnd1: {
+    flex: 1,
     justifyContent: 'center',
     alignSelf: 'flex-end',
-    marginVertical: hp('3%'),
+    // marginVertical: hp('1%'),
     marginHorizontal: wp('2.75%'),
     backgroundColor: "#23527c",
     width: wp('16%'),
-    height: hp('12%'),
-    padding: wp('2%'),
+    height: hp('5%'),
+    padding: wp('1%'),
     borderWidth: wp('0.5%'),
     borderColor: '#eee',
     borderRadius: 10,
   },
   notificationBoxSwipeEnd2: {
+    flex: 1,
     justifyContent: 'center',
     alignSelf: 'flex-end',
-    marginVertical: hp('3%'),
+    // marginVertical: hp('1%'),
     marginHorizontal: wp('2.75%'),
     backgroundColor: "#cb3837",
     width: wp('16%'),
-    height: hp('12%'),
-    padding: wp('2%'),
+    height: hp('5%'),
+    padding: wp('1%'),
     borderWidth: wp('0.5%'),
     borderColor: '#eee',
     borderRadius: 10,

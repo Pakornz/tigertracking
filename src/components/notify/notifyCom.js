@@ -119,13 +119,13 @@ class notifyCom extends React.Component {
         console.log('###########', 'onRefresh')
     }
 
-    // clickEventListener = (messageid, messagebody) => {
-    //     this.setState({ messageid: messageid, messagebody: messagebody }, () => {
-    //         console.log('%%%%%%%%%%%%%%%%%', this.state.messageid);
-    //         console.log('%%%%%%%%%%%%%%%%%', this.state.messagebody);
-    //         this.setState({ visibleModal: 1 })
-    //     });
-    // }
+    clickEventListener = (messageid, messagebody) => {
+        this.setState({ messageid: messageid, messagebody: messagebody }, () => {
+            console.log('%%%%%%%%%%%%%%%%%', this.state.messageid);
+            console.log('%%%%%%%%%%%%%%%%%', this.state.messagebody);
+            this.setState({ visibleModal: 1 })
+        });
+    }
 
     openM = (messageID) => {
         axios({
@@ -150,42 +150,45 @@ class notifyCom extends React.Component {
             });
     }
 
-    // renderModalContentEmail = (messageid, messagebody) => (
-    //     <View style={styles.popup}>
-    //         <View style={styles.popupContent}>
-    //             <ScrollView contentContainerStyle={styles.modalInfo}>
-    //                 <View style={{ flex: 1, flexDirection: 'column', padding: wp('5%'), alignItems: 'center' }}>
-    //                     <View style={styles.cardImage}>
-    //                         <Image style={styles.imageBox} source={ImageOpen} />
-    //                     </View>
-    //                     <View style={{ marginTop: 20, justifyContent: 'center' }}>
-    //                         <Text style={styles.position}>{messageid}</Text>
-    //                     </View>
-    //                     <View style={{ marginTop: 20, justifyContent: 'center' }}>
-    //                         <Text style={styles.position2}>{messagebody}</Text>
-    //                     </View>
-    //                 </View>
-    //             </ScrollView>
-    //         </View>
+    renderModalContentEmail = (messageid, messagebody) => (
+        <View style={styles.popup}>
+            <View style={styles.popupContent}>
+                <ScrollView contentContainerStyle={styles.modalInfo}>
+                    <View style={{ flex: 1, flexDirection: 'column', padding: wp('5%'), alignItems: 'center' }}>
+                        <View style={styles.cardImage}>
+                            <Image style={styles.imageBox} source={ImageOpen} />
+                        </View>
+                        <View style={{ marginTop: 20, justifyContent: 'center' }}>
+                            <Text style={styles.position}>{messageid}</Text>
+                        </View>
+                        <View style={{ marginTop: 20, justifyContent: 'center' }}>
+                            <Text style={styles.position2}>{messagebody}</Text>
+                        </View>
+                    </View>
+                </ScrollView>
+            </View>
 
-    //         <View style={{ justifyContent: 'flex-end' }}>
-    //             <View style={styles.popupButtons}>
-    //                 <TouchableOpacity onPress={() => this.setState({ visibleModal: null })} style={styles.btnClose}>
-    //                     <Text style={styles.txtClose}>ปิด</Text>
-    //                 </TouchableOpacity>
-    //             </View>
-    //         </View>
-    //     </View>
-    // )
+            <View style={{ justifyContent: 'flex-end' }}>
+                <View style={styles.popupButtons}>
+                    <TouchableOpacity onPress={() => this.setState({ visibleModal: null })} style={styles.btnClose}>
+                        <Text style={styles.txtClose}>ปิด</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
+    )
 
     renderItem = ({ item }) => {
         //this.clickEventListener(item.message_id, item.body)
         const noopenmail =
-            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.openM(item.message_id) }}>
+            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.clickEventListener(item.message_id, item.body), this.openM(item.message_id) }}>
                 <View style={{ flexDirection: 'row' }}>
                     <Image style={styles.icon}
                         source={ImageNoOpen} />
                     <View style={{ flexDirection: 'column' }}>
+                        <View>
+                            <Text style={styles.date_Id}>[ 01/01/2020 ]</Text>
+                        </View>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.title}</Text>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.body}</Text>
                     </View>
@@ -193,11 +196,14 @@ class notifyCom extends React.Component {
             </TouchableHighlight>
 
         const openmail =
-            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { }}>
+            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.clickEventListener(item.message_id, item.body) }}>
                 <View style={{ flexDirection: 'row' }}>
                     <Image style={styles.icon}
                         source={ImageOpen} />
                     <View style={{ flexDirection: 'column' }}>
+                        <View>
+                            <Text style={styles.date_Id}>[ 01/01/2020 ]</Text>
+                        </View>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.title}</Text>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.body}</Text>
                     </View>
@@ -288,7 +294,7 @@ class notifyCom extends React.Component {
 
                 {NotificationList}
 
-                {/* <Modal
+                <Modal
                     isVisible={this.state.visibleModal === 1}
                     backdropColor='#00000057'
                     animationIn='zoomIn'
@@ -297,7 +303,7 @@ class notifyCom extends React.Component {
                     animationOutTiming={600}
                     onBackdropPress={() => this.setState({ visibleModal: null })}>
                     {this.renderModalContentEmail(this.state.messageid, this.state.messagebody)}
-                </Modal> */}
+                </Modal>
 
             </View>
 
@@ -383,7 +389,7 @@ const styles = StyleSheet.create({
         marginVertical: hp('1%'),
         marginHorizontal: wp('1%'),
         backgroundColor: "#fff",
-        height: hp('13%'),
+        height: hp('15%'),
         padding: wp('5%'),
         borderWidth: wp('0.5%'),
         borderColor: '#eee',
@@ -391,6 +397,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     notificationBoxSwipeStart: {
+        flex: 1,
         justifyContent: 'center',
         alignSelf: 'flex-start',
         marginVertical: hp('1%'),
@@ -404,6 +411,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     notificationBoxSwipeEnd: {
+        flex: 1,
         justifyContent: 'center',
         alignSelf: 'flex-end',
         marginVertical: hp('1%'),
@@ -417,8 +425,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     icon: {
-        width: wp('10%'),
-        height: hp('5%'),
+        width: wp('13%'),
+        height: hp('10%'),
+        resizeMode: 'contain',
     },
     title_email: {
         fontSize: hp('2%'),
@@ -432,6 +441,12 @@ const styles = StyleSheet.create({
         marginTop: hp('1.25%'),
         marginLeft: wp('5%'),
         marginRight: wp('11.25%'),
+    },
+    date_Id: {
+        fontSize: hp('1.6%'),
+        alignSelf: 'flex-end',
+        color: "#999999",
+        marginBottom: hp('1%')
     },
     /////////////////////modals///////////////////////
     popup: {
