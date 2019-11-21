@@ -23,7 +23,7 @@ import Imgwarning from '../../assets/exclamation-mark.png';
 import Imgsuccess from '../../assets/checkedAlert.png';
 import Imgerror from '../../assets/error.png';
 import { AsyncStorage } from 'react-native';
-import { domain, isIphoneX } from '../../config/configApp'
+import { domain, isIphoneX, notify_jobstatus } from '../../config/configApp'
 import RNFetchBlob from "react-native-fetch-blob";
 import firebase from 'react-native-firebase';
 import { bindActionCreators, createStore } from 'redux';
@@ -156,16 +156,16 @@ class RegisterScreen extends Component {
   callApiBadgeCount(mobilephone) {
     axios({
       method: 'get',
-      url: `https://webapidev.icc.co.th:3000/tms/messagenotify/messagenotify/${mobilephone}`,
+      url: `${domain}/notification/messagenotifylist/${notify_jobstatus}/${mobilephone}`,
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => {
         const dataMessageList = res.data
         this.setState({ loading: false, dataMessageList: dataMessageList })
 
-        const daataa = this.state.dataMessageList.data
+        const daataa = this.state.dataMessageList.data.message_nofity
         const datares = daataa.filter(a => {
-          return a.read_status == 'N'
+          return a.read_message_status == 'N'
         })
         const resCount = datares.length
         this.props.setBadge(resCount)
@@ -182,10 +182,10 @@ class RegisterScreen extends Component {
   callApiUpdateTokenMessage = (mobile, tokenID) => {
     axios({
       method: 'post',
-      url: `https://webapidev.icc.co.th:3000/tms/messagenotify/updatetokenmessage`,
+      url: `${domain}/notification/updatetokenmessage`,
       headers: { 'Content-Type': 'application/json' },
       data: {
-        mobile_phone: `${mobile}`,
+        user_id: `${mobile}`,
         token_message: `${tokenID}`
       }
     })
@@ -873,16 +873,26 @@ const dataMessageList = {
   "result": "",
   "status": "",
   "message": "",
-  "data": [
-    {
-      "tel": "",
-      "title": "",
-      "body": "",
-      "message_id": "",
-      "send_status": "",
-      "read_status": ""
-    }
-  ]
+  "data": {
+    "user_id": "",
+    "message_nofity": [
+      {
+        "job_no": "",
+        "seq_no": "",
+        "job_status": "",
+        "message_id": "",
+        "message_title": "",
+        "message_body": "",
+        "send_message_status": "",
+        "send_message_date": "",
+        "read_message_status": "",
+        "read_message_date": "",
+        "active_status": "",
+        "create_date": "",
+        "update_date": ""
+      }
+    ]
+  }
 }
 
 

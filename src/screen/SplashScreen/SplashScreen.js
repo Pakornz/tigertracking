@@ -6,7 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { View, Text, TextInput, StyleSheet, Animated, Dimensions, StatusBar, Keyboard, NetInfo } from 'react-native';
 import { AsyncStorage, Image, ImageBackground } from 'react-native';
 import ImgBgSplash from '../../assets/bg-pai.png';
-import { domain } from '../../config/configApp'
+import { domain, notify_jobstatus } from '../../config/configApp'
 import firebase from 'react-native-firebase';
 import { bindActionCreators, createStore } from 'redux';
 import { connect } from 'react-redux';
@@ -103,16 +103,16 @@ class SplashScreen extends React.Component {
   callApiBadgeCount(mobilephone) {
     axios({
       method: 'get',
-      url: `https://webapidev.icc.co.th:3000/tms/messagenotify/messagenotify/${mobilephone}`,
+      url: `${domain}/notification/messagenotifylist/${notify_jobstatus}/${mobilephone}`,
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => {
         const dataMessageList = res.data
         this.setState({ loading: false, dataMessageList: dataMessageList })
 
-        const daataa = this.state.dataMessageList.data
+        const daataa = this.state.dataMessageList.data.message_nofity
         const datares = daataa.filter(a => {
-          return a.read_status == 'N'
+          return a.read_message_status == 'N'
         })
         const resCount = datares.length
         this.props.setBadge(resCount)
@@ -260,10 +260,10 @@ class SplashScreen extends React.Component {
   callApiUpdateTokenMessage = (mobile, tokenID) => {
     axios({
       method: 'post',
-      url: `https://webapidev.icc.co.th:3000/tms/messagenotify/updatetokenmessage`,
+      url: `${domain}/notification/updatetokenmessage`,
       headers: { 'Content-Type': 'application/json' },
       data: {
-        mobile_phone: `${mobile}`,
+        user_id: `${mobile}`,
         token_message: `${tokenID}`
       }
     })
@@ -388,16 +388,26 @@ const dataMessageList = {
   "result": "",
   "status": "",
   "message": "",
-  "data": [
-    {
-      "tel": "",
-      "title": "",
-      "body": "",
-      "message_id": "",
-      "send_status": "",
-      "read_status": ""
-    }
-  ]
+  "data": {
+    "user_id": "",
+    "message_nofity": [
+      {
+        "job_no": "",
+        "seq_no": "",
+        "job_status": "",
+        "message_id": "",
+        "message_title": "",
+        "message_body": "",
+        "send_message_status": "",
+        "send_message_date": "",
+        "read_message_status": "",
+        "read_message_date": "",
+        "active_status": "",
+        "create_date": "",
+        "update_date": ""
+      }
+    ]
+  }
 }
 
 const { width, height } = Dimensions.get("window");

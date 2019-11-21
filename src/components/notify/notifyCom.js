@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import badgeCountReducer from '../../reducers/badgeCountReducer';
 import { increaseBadge, decreaseBadge } from './../../actions/index';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { domain, notify_jobstatus } from '../../config/configApp'
 
 class notifyCom extends React.Component {
 
@@ -30,6 +31,7 @@ class notifyCom extends React.Component {
 
             dataMessageList: dataMessageList,
             dataResponeMessage: dataResponeMessage,
+            dataResponeDeleteMessage: dataResponeDeleteMessage,
 
             foundNotification: false,
             spinner: false,
@@ -72,7 +74,7 @@ class notifyCom extends React.Component {
         // this.setState({spinner:true})
         axios({
             method: 'get',
-            url: `https://webapidev.icc.co.th:3000/tms/messagenotify/messagenotify/${mobile_phone}`,
+            url: `${domain}/notification/messagenotifylist/${notify_jobstatus}/${mobile_phone}`,
             headers: { 'Content-Type': 'application/json' }
         })
             .then(res => {
@@ -97,7 +99,7 @@ class notifyCom extends React.Component {
         // this.setState({ isRefreshing: true })
         axios({
             method: 'get',
-            url: `https://webapidev.icc.co.th:3000/tms/messagenotify/messagenotify/${mobile_phone}`,
+            url: `${domain}/notification/messagenotifylist/${notify_jobstatus}/${mobile_phone}`,
             headers: { 'Content-Type': 'application/json' }
         })
             .then(res => {
@@ -127,13 +129,16 @@ class notifyCom extends React.Component {
         });
     }
 
-    openM = (messageID) => {
+    openM = (job_no, seq_no) => {
         axios({
             method: 'post',
-            url: `https://webapidev.icc.co.th:3000/tms/messagenotify/updatereadstatus`,
+            url: `${domain}/notification/updatemessagenotifyread`,
             headers: { 'Content-Type': 'application/json' },
             data: {
-                message_id: `${messageID}`
+                subject_id: `${notify_jobstatus}`,
+                user_id: `${this.state.phones}`,
+                job_no: `${job_no}`,
+                seq_no: seq_no,
             }
         })
             .then(res => {
@@ -141,6 +146,31 @@ class notifyCom extends React.Component {
                 this.setState({ loading: false, dataResponeMessage: dataResponeMessage, spinner: false })
                 this.props.decreaseBadge()
                 console.log(dataResponeMessage.message)
+                this.onRefresh(this.state.phones)
+            })
+            .catch(error => {
+                this.setState({ loading: false, error: 'Something just went wrong', spinner: false })
+                // alert(error)
+                console.log(error)
+            });
+    }
+
+    deleteM = (job_no, seq_no) => {
+        axios({
+            method: 'delete',
+            url: `${domain}/notification/deletemessagenotify`,
+            headers: { 'Content-Type': 'application/json' },
+            data: {
+                subject_id: `${notify_jobstatus}`,
+                user_id: `${this.state.phones}`,
+                job_no: `${job_no}`,
+                seq_no: seq_no,
+            }
+        })
+            .then(res => {
+                const dataResponeDeleteMessage = res.data
+                this.setState({ loading: false, dataResponeDeleteMessage: dataResponeDeleteMessage, spinner: false })
+                console.log(dataResponeDeleteMessage.message)
                 this.onRefresh(this.state.phones)
             })
             .catch(error => {
@@ -181,31 +211,31 @@ class notifyCom extends React.Component {
     renderItem = ({ item }) => {
         //this.clickEventListener(item.message_id, item.body)
         const noopenmail =
-            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.clickEventListener(item.message_id, item.body), this.openM(item.message_id) }}>
+            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.clickEventListener(item.message_title, item.message_body), this.openM(item.job_no, item.seq_no) }}>
                 <View style={{ flexDirection: 'row' }}>
                     <Image style={styles.icon}
                         source={ImageNoOpen} />
                     <View style={{ flexDirection: 'column' }}>
                         <View>
-                            <Text style={styles.date_Id}>[ 01/01/2020 ]</Text>
+                            <Text style={styles.date_Id}>[ {item.create_date} ]</Text>
                         </View>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.title}</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.body}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.message_title}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.message_body}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
 
         const openmail =
-            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.clickEventListener(item.message_id, item.body) }}>
+            <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.clickEventListener(item.message_title, item.message_body) }}>
                 <View style={{ flexDirection: 'row' }}>
                     <Image style={styles.icon}
                         source={ImageOpen} />
                     <View style={{ flexDirection: 'column' }}>
                         <View>
-                            <Text style={styles.date_Id}>[ 01/01/2020 ]</Text>
+                            <Text style={styles.date_Id}>[ {item.create_date} ]</Text>
                         </View>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.title}</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.body}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.message_title}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.message_body}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -213,7 +243,7 @@ class notifyCom extends React.Component {
         let viewSelectN;
         let viewSelectY;
 
-        if (item.read_status == 'N') {
+        if (item.read_message_status == 'N') {
             viewSelectN = noopenmail
         } else {
             viewSelectY = openmail
@@ -232,13 +262,13 @@ class notifyCom extends React.Component {
         return (
             <ScrollView contentContainerStyle={{ flex: 1 }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <TouchableOpacity style={{ flex: 1 }} onPress={() => { }}>
+                    <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.deleteM(item.job_no, item.seq_no) }}>
                         <View style={styles.notificationBoxSwipeStart}>
                             <Text style={{ color: 'white', fontSize: hp('2.5%'), textAlign: 'center' }}>ลบ</Text>
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ flex: 1 }} onPress={() => { }}>
+                    <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.deleteM(item.job_no, item.seq_no) }}>
                         <View style={styles.notificationBoxSwipeEnd}>
                             <Text style={{ color: 'white', fontSize: hp('2.5%'), textAlign: 'center' }}>ลบ</Text>
                         </View>
@@ -262,7 +292,7 @@ class notifyCom extends React.Component {
             NotificationList =
                 <SwipeListView
                     style={styles.notificationList}
-                    data={this.state.dataMessageList.data}
+                    data={this.state.dataMessageList.data.message_nofity}
                     renderItem={this.renderItem}
                     renderHiddenItem={this.renderHiddenItem}
                     leftOpenValue={75}
@@ -328,19 +358,35 @@ const dataMessageList = {
     "result": "",
     "status": "",
     "message": "",
-    "data": [
-        {
-            "tel": "",
-            "title": "",
-            "body": "",
-            "message_id": "",
-            "send_status": "",
-            "read_status": ""
-        }
-    ]
+    "data": {
+        "user_id": "",
+        "message_nofity": [
+            {
+                "job_no": "",
+                "seq_no": "",
+                "job_status": "",
+                "message_id": "",
+                "message_title": "",
+                "message_body": "",
+                "send_message_status": "",
+                "send_message_date": "",
+                "read_message_status": "",
+                "read_message_date": "",
+                "active_status": "",
+                "create_date": "",
+                "update_date": ""
+            }
+        ]
+    }
 }
 
 const dataResponeMessage = {
+    "result": "",
+    "status": "",
+    "message": ""
+}
+
+const dataResponeDeleteMessage = {
     "result": "",
     "status": "",
     "message": ""
@@ -491,12 +537,12 @@ const styles = StyleSheet.create({
     position: {
         color: "#999999",
         fontFamily: 'kanit',
-        fontSize: hp('2.5%'),
+        fontSize: hp('2%'),
     },
     position2: {
         color: "#999999",
         fontFamily: 'kanit',
-        fontSize: hp('2%'),
+        fontSize: hp('2.5%'),
     },
     imageBox: {
         width: wp('20%'),
