@@ -297,6 +297,7 @@ class notifyCom extends React.Component {
                     renderHiddenItem={this.renderHiddenItem}
                     leftOpenValue={75}
                     rightOpenValue={-75}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             // <FlatList
             //     style={styles.notificationList}

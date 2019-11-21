@@ -529,6 +529,7 @@ class shippingList extends React.Component {
           // disableRightSwipe={true}
           leftOpenValue={75}
           rightOpenValue={-75}
+          keyExtractor={(item, index) => index.toString()}
         />
       // <FlatList
       //   style={styles.userList}
