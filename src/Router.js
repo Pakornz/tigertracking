@@ -86,7 +86,8 @@ const DrawerHomeScreen = createDrawerNavigator(
     HomeScreen: { screen: HomeScreen }
   },
   {
-    contentComponent: props => <SideBar {...props} />
+    contentComponent: props => <SideBar {...props} />,
+    drawerWidth: wp('80%')
   }
 );
 
@@ -95,7 +96,8 @@ const DrawerAddressShowScreen = createDrawerNavigator(
     AddressShowScreen: { screen: AddressShowScreen }
   },
   {
-    contentComponent: props => <SideBar {...props} />
+    contentComponent: props => <SideBar {...props} />,
+    drawerWidth: wp('80%')
   }
 );
 
@@ -104,7 +106,8 @@ const DrawerMyProfileScreen = createDrawerNavigator(
     MyProfileScreen: { screen: MyProfileScreen }
   },
   {
-    contentComponent: props => <SideBar {...props} />
+    contentComponent: props => <SideBar {...props} />,
+    drawerWidth: wp('80%')
   }
 );
 
@@ -113,7 +116,8 @@ const DrawerTrackingTabScreen = createDrawerNavigator(
     TrackingTabScreen: { screen: TrackingTabScreen }
   },
   {
-    contentComponent: props => <SideBar {...props} />
+    contentComponent: props => <SideBar {...props} />,
+    drawerWidth: wp('80%')
   }
 );
 

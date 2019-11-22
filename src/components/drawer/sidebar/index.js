@@ -211,7 +211,7 @@ class SideBar extends Component {
           </View>
 
           <View style={{ justifyContent: 'flex-end', alignItems: 'center', backgroundColor: '#23527c' }}>
-            <Text style={{ color: '#fff', fontSize: isIphoneX ? hp('1.2%') : hp('1.2%'), paddingVertical: wp('3%') }}>
+            <Text style={{ color: '#fff', fontSize: isIphoneX ? hp('1.5%') : hp('1.5%'), paddingVertical: wp('3%') }}>
               Version {PackageJson.version} TigerTracking Application
                 </Text>
           </View>

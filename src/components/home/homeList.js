@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     // shadowRadius: 7.49,
     // elevation: 12,
 
-    marginVertical: hp('2%'),
+    marginVertical: hp('1%'),
     marginHorizontal: wp('6%'),
     backgroundColor: "#fff",
     flexBasis: '46%',

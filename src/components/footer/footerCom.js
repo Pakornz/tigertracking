@@ -9,6 +9,13 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import Icon3 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon4 from 'react-native-vector-icons/FontAwesome5';
 
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'DrawerHomeScreen' }),
+  ],
+});
+
 class footerCom extends Component {
 
   constructor(props) {
@@ -28,7 +35,7 @@ class footerCom extends Component {
           <FooterTab style={{ backgroundColor: '#fcfcfc' }}>
 
             <Button vertical style={(this.state.btnSelected == 1) ? styles.btnSelected : styles.notSelected}
-              onPress={() => { this.props.navigation.navigate('DrawerHomeScreen') }}>
+              onPress={() => { this.props.navigation.dispatch(resetAction) }}>
               <Icon1 name="home" size={wp('7.5%')} style={(this.state.iconSelected == 1) ? styles.iconSelected : styles.iconnotSelected} />
               <Text style={(this.state.textSelected == 1) ? styles.textSelected : styles.textnotSelected}>Home</Text>
             </Button>
