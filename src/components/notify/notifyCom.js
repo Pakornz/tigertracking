@@ -18,6 +18,7 @@ import badgeCountReducer from '../../reducers/badgeCountReducer';
 import { increaseBadge, decreaseBadge } from './../../actions/index';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { domain, notify_jobstatus } from '../../config/configApp'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class notifyCom extends React.Component {
 
@@ -156,6 +157,7 @@ class notifyCom extends React.Component {
     }
 
     deleteM = (job_no, seq_no) => {
+        this.setState({ spinner: true })
         axios({
             method: 'delete',
             url: `${domain}/notification/deletemessagenotify`,
@@ -322,6 +324,11 @@ class notifyCom extends React.Component {
         return (
 
             <View style={styles.screen}>
+                <Spinner
+                    visible={this.state.spinner}
+                    textContent={'Loading...'}
+                    textStyle={styles.spinnerTextStyle}
+                />
 
                 {NotificationList}
 

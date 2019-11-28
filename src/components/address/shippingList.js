@@ -128,6 +128,7 @@ class shippingList extends React.Component {
   }
 
   callApiSelect(item, phones) {
+    this.setState({ spinner: true })
     axios({
       method: 'post',
       url: `${domain}/shipping/defaultshippingaddress`,
@@ -139,12 +140,12 @@ class shippingList extends React.Component {
     })
       .then(res => {
         const dataDefault = res.data
-        this.setState({ dataDefault: dataDefault })
+        this.setState({ dataDefault: dataDefault, spinner: false })
         console.log('################', this.state.dataDefault.message)
         this.onRefresh(phones)
       })
       .catch(error => {
-        this.setState({ error: 'Something just went wrong' })
+        this.setState({ error: 'Something just went wrong', spinner: false })
         // alert('Select')
         // console.log(error)
       });
