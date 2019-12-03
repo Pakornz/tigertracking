@@ -103,7 +103,7 @@ const AppNavigator = createStackNavigator(
     TestApp3: { screen: TestApp3 }
   },
   {
-    initialRouteName: "TestApp3",
+    initialRouteName: "SplashScreen",
     transitionConfig: (nav) => handleCustomTransition(nav),
     headerMode: 'none',
     navigationOptions: {
