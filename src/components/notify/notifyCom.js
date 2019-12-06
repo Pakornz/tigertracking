@@ -5,7 +5,7 @@ import {
     StyleSheet, ScrollView, Image, ActivityIndicator, RefreshControl,
     TouchableOpacity,
     TouchableHighlight,
-    Text, FlatList, AsyncStorage
+    Text, FlatList, AsyncStorage, Platform
 } from "react-native";
 import { View } from "native-base";
 import Modal from "react-native-modal";
@@ -219,7 +219,7 @@ class notifyCom extends React.Component {
                         source={ImageNoOpen} />
                     <View style={{ flexDirection: 'column' }}>
                         <View>
-                            <Text style={styles.date_Id}>[ {item.create_date} ]</Text>
+                            <Text style={platform === 'ios' ? styles.date_Id2 : styles.date_Id}>[ {item.create_date} ]</Text>
                         </View>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.message_title}</Text>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.message_body}</Text>
@@ -234,7 +234,7 @@ class notifyCom extends React.Component {
                         source={ImageOpen} />
                     <View style={{ flexDirection: 'column' }}>
                         <View>
-                            <Text style={styles.date_Id}>[ {item.create_date} ]</Text>
+                            <Text style={platform === 'ios' ? styles.date_Id2 : styles.date_Id}>[ {item.create_date} ]</Text>
                         </View>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.title_email}>{item.message_title}</Text>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.description_email}>{item.message_body}</Text>
@@ -400,6 +400,8 @@ const dataResponeDeleteMessage = {
     "message": ""
 }
 
+const platform = Platform.OS;
+
 const styles = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'
@@ -501,6 +503,13 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         color: "#999999",
         marginBottom: hp('1%')
+    },
+    date_Id2: {
+        fontSize: hp('1.6%'),
+        alignSelf: 'flex-end',
+        color: "#999999",
+        marginBottom: hp('1%'),
+        marginTop: wp('10%')
     },
     /////////////////////modals///////////////////////
     popup: {
