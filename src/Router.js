@@ -1,5 +1,5 @@
 import React from 'react';
-import { Root } from 'native-base';
+import { Root, Right } from 'native-base';
 import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
 import { fadeIn, fromRight, fromLeft, fromTop, fromBottom, zoomOut, zoomIn, flipX, flipY } from 'react-navigation-transitions';
 import SideBar from "./components/drawer/sidebar";
@@ -37,7 +37,8 @@ const DrawerHomeScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    drawerWidth: wp('80%')
+    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    drawerWidth: wp('60%')
   }
 );
 
@@ -47,7 +48,8 @@ const DrawerAddressShowScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    drawerWidth: wp('80%')
+    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    drawerWidth: wp('60%')
   }
 );
 
@@ -57,7 +59,8 @@ const DrawerMyProfileScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    drawerWidth: wp('80%')
+    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    drawerWidth: wp('60%')
   }
 );
 
@@ -67,7 +70,8 @@ const DrawerTrackingTabScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    drawerWidth: wp('80%')
+    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    drawerWidth: wp('60%')
   }
 );
 
@@ -108,7 +112,7 @@ const AppNavigator = createStackNavigator(
     headerMode: 'none',
     navigationOptions: {
       headerVisible: false,
-    },
+    }
   }
 );
 

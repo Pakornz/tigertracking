@@ -15,6 +15,11 @@ import com.facebook.soloader.SoLoader;
 import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage; 
 
+// react-native-reanimated
+import com.swmansion.reanimated.ReanimatedPackage;
+// react-native-screens
+import com.swmansion.rnscreens.RNScreensPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +44,8 @@ public class MainApplication extends Application implements ReactApplication {
             new MapsPackage(),
             new LinearGradientPackage(),
             new RNGestureHandlerPackage(),
+            new ReanimatedPackage(),
+            new RNScreensPackage(),
             new ImagePickerPackage(),
             new RNFetchBlobPackage(),
             new RNFirebasePackage(),
