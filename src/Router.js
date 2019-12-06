@@ -37,7 +37,7 @@ const DrawerHomeScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    overlayColor: 'rgba(0, 0, 0, 0.8)',
     drawerWidth: wp('60%')
   }
 );
@@ -48,7 +48,7 @@ const DrawerAddressShowScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    overlayColor: 'rgba(0, 0, 0, 0.8)',
     drawerWidth: wp('60%')
   }
 );
@@ -59,7 +59,7 @@ const DrawerMyProfileScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    overlayColor: 'rgba(0, 0, 0, 0.8)',
     drawerWidth: wp('60%')
   }
 );
@@ -70,7 +70,7 @@ const DrawerTrackingTabScreen = createDrawerNavigator(
   },
   {
     contentComponent: props => <SideBar {...props} />,
-    overlayColor: 'rgba(0, 0, 0, 0.7)',
+    overlayColor: 'rgba(0, 0, 0, 0.8)',
     drawerWidth: wp('60%')
   }
 );
