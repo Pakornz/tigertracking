@@ -18,6 +18,7 @@ import { bindActionCreators, createStore } from 'redux';
 import { connect } from 'react-redux';
 import badgeCountReducer from '../../reducers/badgeCountReducer';
 import { decreaseBadge } from './../../actions/index';
+import PushNotification from 'react-native-push-notification'
 
 
 class headerCom extends Component {
@@ -34,7 +35,7 @@ class headerCom extends Component {
     // Text.defaultProps.allowFontScaling = false;
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     // this.checkPermission();
     this.createNotificationListeners(); //add this line
 
@@ -48,7 +49,7 @@ class headerCom extends Component {
     // this.notificationOpenedListener();
   }
 
-  async createNotificationListeners() {
+  createNotificationListeners() {
     /*
     * Triggered when a particular notification has been received in foreground
     * */
@@ -57,15 +58,35 @@ class headerCom extends Component {
       // this.showSimpleMessage(title, body);
       console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1', title);
 
-      this.popup.show({
-        onPress: function () { console.log('Pressed') },
-        appIconSource: require('./../../assets/icon-TLD.png'),
-        appTitle: 'TigerTracking',
-        timeText: 'Now',
-        title: title,
-        body: body,
-        slideOutTime: 3000
-      });
+      // this.popup.show({
+      //   onPress: function () { console.log('Pressed') },
+      //   appIconSource: require('./../../assets/icon-TLD.png'),
+      //   appTitle: 'TigerTracking',
+      //   timeText: 'Now',
+      //   title: title,
+      //   body: body,
+      //   slideOutTime: 3000
+      // });
+
+      const localNotification = () => {
+        PushNotification.localNotification({
+          autoCancel: true,
+          largeIcon: "ic_launcher",
+          smallIcon: "ic_notification",
+          bigText: "My big text that will be shown when notification is expanded",
+          subText: "This is a subText",
+          color: "green",
+          vibrate: true,
+          vibration: 300,
+          title: "Notification Title",
+          message: "Notification Message",
+          playSound: true,
+          soundName: 'default',
+        });
+      };
+
+      localNotification();
+
     });
 
     this.messageListener = firebase.messaging().onMessage((message) => {
@@ -75,6 +96,21 @@ class headerCom extends Component {
       console.log(JSON.stringify(message));
     });
   }
+
+  // showSimpleMessage(title, body) {
+  //   const message = {
+  //     message: title,
+  //     description: body,
+  //     icon: { icon: "info", position: "left" },
+  //     type: "info",
+  //     floating: true,
+  //     duration: 3000,
+  //     // backgroundColor: "blue", // background color
+  //     // color: "#606060", // text color
+  //   };
+
+  //   showMessage(message);
+  // }
 
   render() {
     // const storeCount = createStore(badgeCountReducer);
@@ -141,7 +177,7 @@ class headerCom extends Component {
           </Right>
         </Header>
 
-        <NotificationPopup ref={ref => this.popup = ref} />
+        {/* <NotificationPopup ref={ref => this.popup = ref} /> */}
         {/* <FlashMessage position="top" /> */}
 
       </View>
