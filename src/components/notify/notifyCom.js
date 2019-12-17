@@ -509,7 +509,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         color: "#999999",
         marginBottom: hp('1%'),
-        marginTop: wp('10%')
+        marginRight: wp('3%')
     },
     /////////////////////modals///////////////////////
     popup: {
