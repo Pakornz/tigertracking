@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import badgeCountReducer from '../../reducers/badgeCountReducer';
 import { decreaseBadge } from './../../actions/index';
 import PushNotification from 'react-native-push-notification'
+import NotifService from './NotifyService';
 
 
 class headerCom extends Component {
@@ -30,13 +31,21 @@ class headerCom extends Component {
       BadgeCount: null,
 
       buttonBack: this.props.buttonBack,
+
+      senderId: ""
     }
+
+
+    this.notif = new NotifService(this.onRegister.bind(this), this.onNotif.bind(this));
 
     // Text.defaultProps.allowFontScaling = false;
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // this.checkPermission();
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    this.setState({ senderId: fcmToken })
+
     this.createNotificationListeners(); //add this line
 
   }
@@ -68,24 +77,26 @@ class headerCom extends Component {
       //   slideOutTime: 3000
       // });
 
-      const localNotification = () => {
-        PushNotification.localNotification({
-          autoCancel: true,
-          largeIcon: "ic_launcher",
-          smallIcon: "ic_notification",
-          bigText: body,
-          // subText: "This is a subText",
-          color: "green",
-          vibrate: true,
-          vibration: 300,
-          title: title,
-          message: "Notification Message",
-          playSound: true,
-          soundName: 'default',
-        });
-      };
+      // const localNotification = () => {
+      //   PushNotification.localNotification({
+      //     autoCancel: true,
+      //     largeIcon: "ic_launcher",
+      //     smallIcon: "ic_notification",
+      //     bigText: body,
+      //     // subText: "This is a subText",
+      //     color: "green",
+      //     vibrate: true,
+      //     vibration: 300,
+      //     title: title,
+      //     message: "Notification Message",
+      //     playSound: true,
+      //     soundName: 'default',
+      //   });
+      // };
 
-      localNotification();
+      this.notif.localNotif(title, body)
+
+      // localNotification();
 
     });
 
@@ -111,6 +122,17 @@ class headerCom extends Component {
 
   //   showMessage(message);
   // }
+
+  onRegister = (token) => {
+    Alert.alert("Registered !", JSON.stringify(token));
+    console.log(token);
+    this.setState({ registerToken: token.token, gcmRegistered: true });
+  }
+
+  onNotif = (notif) => {
+    console.log(notif);
+    Alert.alert(notif.title, notif.message);
+  }
 
   render() {
     // const storeCount = createStore(badgeCountReducer);
