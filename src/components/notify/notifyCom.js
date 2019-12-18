@@ -107,15 +107,18 @@ class notifyCom extends React.Component {
                 const dataMessageList = res.data
                 this.setState({ isRefreshing: false, dataMessageList: dataMessageList, spinner: false })
 
-                // const daataa = this.state.dataMessageList.data
-                // const datares = daataa.filter(a => {
-                //     return a.read_status == 'N'
-                // })
-                // const resCount = datares.length
-                // this.setState({ BadgeCount: resCount })
+                // const daataa = this.state.dataMessageList.data.message_nofity
+                // const resDataCount = daataa.length
+
+                // console.log('resDataCount', resDataCount);
+
+                // if (resDataCount == 0) {
+                //     this.setState({ foundNotification: false })
+                // }
+
             })
             .catch(error => {
-                this.setState({ isRefreshing: false, error: 'Something just went wrong', spinner: false })
+                this.setState({ isRefreshing: false, error: 'Something just went wrong', spinner: false, foundNotification: false })
                 // alert(error)
                 console.log(error)
             });
@@ -214,10 +217,13 @@ class notifyCom extends React.Component {
         //this.clickEventListener(item.message_id, item.body)
         const noopenmail =
             <TouchableHighlight underlayColor={'white'} style={styles.notificationBox} onPress={() => { this.clickEventListener(item.message_title, item.message_body), this.openM(item.job_no, item.seq_no) }}>
-                <View style={{ flexDirection: 'row' }}>
-                    <Image style={styles.icon}
-                        source={ImageNoOpen} />
-                    <View style={{ flexDirection: 'column' }}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1, flexDirection: 'column' }}>
+                        <Image style={styles.icon}
+                            source={ImageNoOpen} />
+                    </View>
+
+                    <View style={{ flex: 5, flexDirection: 'column' }}>
                         <View>
                             <Text style={platform === 'ios' ? styles.date_Id2 : styles.date_Id}>[ {item.create_date} ]</Text>
                         </View>
